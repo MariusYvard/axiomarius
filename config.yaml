@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# AxioMariuS — Configuration
+# Edit this file to match your CRM structure and preferences.
+# Run `node setup.js` first to create your LinkedIn session.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── CRM (Excel file) ─────────────────────────────────────────────────────────
+crm:
+  file: "CRM.xlsx"           # Path to your Excel CRM file
+  sheet: "Pipeline"          # Worksheet name
+  data_start_row: 2          # First row with data (1 = header)
+  
+  # Column mapping (1-based Excel column indices)
+  # Adjust these to match your spreadsheet layout.
+  columns:
+    company:       1    # A — Company name
+    stage:         2    # B — Pipeline stage
+    first_name:    3    # C — Contact first name
+    last_name:     4    # D — Contact last name
+    title:         5    # E — Contact title
+    linkedin_url:  6    # F — LinkedIn profile URL
+    signal:        7    # G — Tension/opportunity signal
+    notes:         8    # H — AI notes / verbatims
+
+  # Rows in these pipeline stages will be enriched
+  eligible_stages:
+    - "New"
+    - "Lead"
+
+# ── LLM (local, via Ollama) ───────────────────────────────────────────────────
+llm:
+  model: "gemma3:12b"        # Any model available in your Ollama instance
+  # Run `ollama list` to see what's installed.
+  # Install a model: `ollama pull gemma3:12b`
+
+# ── LinkedIn ─────────────────────────────────────────────────────────────────
+linkedin:
+  session_dir: "./chrome-session"   # Persisted Chrome profile (login once)
+  headless: false                   # false = you see the browser (recommended)
+  protocol_timeout: 180000          # ms — increase if your connection is slow
+
+  # Delay between leads (anti-detection). Values in milliseconds.
+  delay_min: 3000
+  delay_max: 7000
+
+  # Keywords to identify HR/People decision-makers in search results
+  target_keywords:
+    - "hr"
+    - "people"
+    - "talent"
+    - "culture"
+    - "human resources"
+    - "chief people"
+    - "head of hr"
+    - "drh"
+
+  # Keywords to exclude (avoid false positives)
+  exclude_keywords:
+    - "banking"
+    - "operations"
+    - "customer success"
+    - "sales"
+    - "engineer"
+    - "developer"
+
+# ── Signal Detection ──────────────────────────────────────────────────────────
+signals:
+  # Web news keywords (searched in company + recent news)
+  web_keywords:
+    - "restructuring"
+    - "layoffs"
+    - "merger"
+    - "acquisition"
+    - "turnover"
+    - "reorganization"
+    - "tension"
+
+  # Glassdoor review keywords (negative reviews from employees)
+  glassdoor_keywords:
+    - "management"
+    - "leadership"
+    - "direction"
+    - "reorganization"
+    - "pressure"
+    - "toxic"
+    - "turnover"
+
+  # Glassdoor review cache TTL (days before re-scraping)
+  cache_ttl_days: 30
+
+# ── Reporting ─────────────────────────────────────────────────────────────────
+reporting:
+  # Optional — send an email report when the run completes.
+  # Leave user/pass empty to disable.
+  smtp_host: "smtp.gmail.com"
+  smtp_port: 587
+  smtp_user: ""      # Or set via SMTP_USER env variable
+  smtp_pass: ""      # Or set via SMTP_PASS env variable (use app password)
+  report_to: ""
+
+# ── Debug ─────────────────────────────────────────────────────────────────────
+debug:
+  dir: "./debug"
+  max_files: 20
