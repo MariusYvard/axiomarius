@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Chrome session (contains your login cookies — never commit this)
+chrome-session/
+
+# CRM files (personal data)
+*.xlsx
+*.xls
+*.csv
+
+# Cache and runtime state
+signal_cache.json
+.checkpoint.json
+
+# Logs
+logs/
+
+# Screenshots / debug
+debug/
+evidence/
+
+# Environment
+.env
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+*.swp
