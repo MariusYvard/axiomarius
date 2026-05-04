@@ -1,0 +1,28 @@
+{
+  "name": "axiomarius",
+  "version": "1.0.0",
+  "description": "Data distilled. Insights delivered. — OSINT enrichment layer for Excel CRMs.",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "setup": "node setup.js",
+    "dry-run": "node src/main.js --dry-run",
+    "reset": "node src/main.js --reset"
+  },
+  "keywords": ["osint", "crm", "linkedin", "enrichment", "ollama", "puppeteer"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "js-yaml": "^4.1.0",
+    "ollama": "^0.6.3",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "jest": "^29.0.0"
+  }
+}
