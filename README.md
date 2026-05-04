@@ -2,7 +2,7 @@
 
 **Data distilled. Insights delivered.**
 
-AxioMariuS is a local OSINT enrichment tool that fills your Excel CRM with LinkedIn contact data and tension signals — using a local LLM via Ollama. No API keys. No cloud. Runs entirely on your machine.
+AxioMariuS is a local OSINT enrichment tool that fills your Excel CRM with LinkedIn contact data and tension signals using a local LLM via Ollama. No API keys. No cloud. Runs entirely on your machine.
 
 Part of the [Marius Intelligence Suite](#marius-intelligence-suite).
 
@@ -62,7 +62,7 @@ npm run dry-run
 npm run reset
 ```
 
-AxioMariuS automatically resumes from where it left off if interrupted — no lead is processed twice in the same 24h window.
+AxioMariuS automatically resumes from where it left off if interrupted. No lead is processed twice in the same 24h window.
 
 ---
 
