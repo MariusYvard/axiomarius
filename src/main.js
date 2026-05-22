@@ -15,8 +15,9 @@
 
 'use strict';
 
-const puppeteer     = require('puppeteer-extra');
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+const { addExtra }       = require('puppeteer-extra');
+const rebrowserPuppeteer = require('rebrowser-puppeteer');
+const puppeteer          = addExtra(rebrowserPuppeteer);
 const ExcelJS       = require('exceljs');
 const path          = require('path');
 const fs            = require('fs');
@@ -28,8 +29,6 @@ const { atomicWriteCRM, validateCRMIntegrity } = require('./crm_writer');
 const { initCheckpoint, isDone, markDone, getSummary, resetCheckpoint } = require('./checkpoint');
 const { scrapeCompanyHR, verifyProfileLink, splitFullName, selectBestProfile } = require('./linkedin');
 const { captureWebSignal } = require('./web_enricher');
-
-puppeteer.use(StealthPlugin());
 
 // ── CLI flags ─────────────────────────────────────────────────────────────
 
