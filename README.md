@@ -12,8 +12,8 @@ Part of the [Marius Intelligence Suite](#marius-intelligence-suite).
 
 For each lead in your CRM:
 
-1. **LinkedIn enrichment** — Finds the most senior HR/People decision-maker at the company and writes their name, title, and LinkedIn URL into the spreadsheet.
-2. **Signal detection** — Searches for recent tension signals (restructuring, layoffs, leadership changes) via web search and Glassdoor reviews, and writes a short label + verbatim into the CRM.
+1. **LinkedIn enrichment** - Finds the most senior HR/People decision-maker at the company and writes their name, title, and LinkedIn URL into the spreadsheet.
+2. **Signal detection** - Searches for recent tension signals (restructuring, layoffs, leadership changes) via DuckDuckGo (primary) with Google as fallback for small companies with limited coverage. Writes a short label and verbatim into the CRM.
 
 Results are ready for [Vantarius](https://github.com/MariusYvard/vantarius) to use as outreach context.
 
@@ -21,7 +21,7 @@ Results are ready for [Vantarius](https://github.com/MariusYvard/vantarius) to u
 
 ## Requirements
 
-- Node.js ≥ 18
+- Node.js >= 18
 - [Ollama](https://ollama.com) running locally with at least one model installed
 - A LinkedIn account (login done manually once via `node setup.js`)
 - An Excel CRM file (`.xlsx`)
@@ -33,6 +33,8 @@ Results are ready for [Vantarius](https://github.com/MariusYvard/vantarius) to u
 ```bash
 # 1. Install dependencies
 npm install
+#    Installs rebrowser-puppeteer, which patches the Runtime.Enable CDP leak
+#    detected by Cloudflare and LinkedIn anti-bot systems.
 
 # 2. Copy and edit the config
 cp config.yaml config.yaml   # already included, just edit it
@@ -42,7 +44,7 @@ ollama pull gemma3:12b       # or any model you prefer
 
 # 4. Log in to LinkedIn (one-time)
 node setup.js
-# A browser will open — log in, then close the window.
+# A browser will open - log in, then close the window.
 ```
 
 Edit `config.yaml` to match your CRM structure (column indices, sheet name, eligible pipeline stages).
@@ -104,6 +106,14 @@ linkedin:
   session_dir: "./chrome-session"
   delay_min: 3000        # ms between leads (anti-detection)
   delay_max: 7000
+
+signals:
+  web_keywords:          # terms to search for per company
+    - restructuring
+    - layoffs
+    - merger
+    - reorganization
+    - turnover
 ```
 
 ---
@@ -112,18 +122,18 @@ linkedin:
 
 ```
 axiomarius/
-├── config.yaml          ← Edit this
-├── setup.js             ← LinkedIn login (run once)
+├── config.yaml           Edit this
+├── setup.js              LinkedIn login (run once)
 ├── src/
-│   ├── main.js          ← Orchestrator
-│   ├── linkedin.js      ← LinkedIn scraping + LLM selection
-│   ├── web_enricher.js  ← Web signal search
-│   ├── cache.js         ← Signal cache (30-day TTL)
-│   ├── checkpoint.js    ← Run resume system
-│   ├── crm_writer.js    ← Atomic Excel write
-│   ├── config_loader.js ← YAML config reader
-│   └── logger.js        ← Console + file logging
-└── .github/workflows/   ← CI
+│   ├── main.js           Orchestrator
+│   ├── linkedin.js       LinkedIn scraping + LLM profile selection
+│   ├── web_enricher.js   Signal search (DuckDuckGo primary, Google fallback)
+│   ├── cache.js          Signal cache (30-day TTL)
+│   ├── checkpoint.js     Run resume system
+│   ├── crm_writer.js     Atomic Excel write
+│   ├── config_loader.js  YAML config reader
+│   └── logger.js         Console + file logging
+└── .github/workflows/    CI
 ```
 
 ---
@@ -133,9 +143,9 @@ axiomarius/
 AxioMariuS and [Vantarius](https://github.com/MariusYvard/vantarius) form a two-stage pipeline:
 
 ```
-AxioMariuS   →   Vantarius
-(OSINT)          (Outreach)
-Enrich CRM       Read signal, generate message, send invite
+AxioMariuS      →      Vantarius
+(OSINT)                (Outreach)
+Enrich CRM      →      Read signal → generate message → send invite
 ```
 
 They can be used independently or together.
