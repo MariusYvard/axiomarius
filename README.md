@@ -1,4 +1,13 @@
-# AxioMariuS
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/banner-dark.svg">
+    <img src="docs/banner.svg" alt="AxioMariuS, Data distilled. Insights delivered." width="100%">
+  </picture>
+</p>
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-102857)](#license)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-215876)](package.json)
+[![Local LLM only](https://img.shields.io/badge/cloud-none-D97F30)](#requirements)
 
 **Data distilled. Insights delivered.**
 
@@ -72,6 +81,9 @@ AxioMariuS automatically resumes from where it left off if interrupted. No lead 
 
 Your Excel file needs at minimum these columns (exact positions configured in `config.yaml`):
 
+<details>
+<summary><b>Column table</b></summary>
+
 | Column | Field | Description |
 |--------|-------|-------------|
 | A | Company | Company name |
@@ -82,6 +94,8 @@ Your Excel file needs at minimum these columns (exact positions configured in `c
 | F | LinkedIn URL | Profile URL |
 | G | Signal | Tension signal label |
 | H | Notes | AI verbatims and reasoning |
+
+</details>
 
 Column positions are fully configurable in `config.yaml`.
 
